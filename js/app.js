@@ -344,25 +344,60 @@ $(function () {
   // --------------------------------------------- //
   // Contact Form Start
   // --------------------------------------------- //
-  $("#contact-form").submit(function () {
-    //Change
-    var th = $(this);
-    $.ajax({
-      type: "POST",
-      url: "mail.php", //Change
-      data: th.serialize(),
-    }).done(function () {
-      $(".contact").find(".form").addClass("is-hidden");
-      $(".contact").find(".form__reply").addClass("is-visible");
-      setTimeout(function () {
-        // Done Functions
-        $(".contact").find(".form__reply").removeClass("is-visible");
-        $(".contact").find(".form").delay(300).removeClass("is-hidden");
-        th.trigger("reset");
-      }, 5000);
-    });
-    return false;
-  });
+  // $("#contact-form").submit(function () {
+  //   //Change
+  //   var th = $(this);
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "mail.php", //Change
+  //     data: th.serialize(),
+  //   }).done(function () {
+  //     $(".contact").find(".form").addClass("is-hidden");
+  //     $(".contact").find(".form__reply").addClass("is-visible");
+  //     setTimeout(function () {
+  //       // Done Functions
+  //       $(".contact").find(".form__reply").removeClass("is-visible");
+  //       $(".contact").find(".form").delay(300).removeClass("is-hidden");
+  //       th.trigger("reset");
+  //     }, 5000);
+  //   });
+  //   return false;
+  // });
+  document.getElementById("contact-form").onsubmit = function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Create a FormData object
+    var formData = new FormData(this);
+
+    // Send the form data to your Google Apps Script web app
+    fetch(
+      "https://script.google.com/macros/s/AKfycbxsYC4jUYiDbNBh6JNo2XsR_sOeBvVaf6TiSRbITMW1G0TxzWaCHB79bpT4p9I6nzpVHw/exec",
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.text(); // Assuming your script returns plain text
+        } else {
+          throw new Error("Network response was not ok.");
+        }
+      })
+      .then((data) => {
+        console.log("Success:", data); // Log success response for debugging
+        alert(
+          "Done! Thanks for your message. I'll get back as soon as possible."
+        ); // Success alert
+        this.reset(); // Reset the form
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert(
+          "Oops! There was a problem sending your message. Please try again later."
+        ); // Error alert
+      });
+  };
   // --------------------------------------------- //
   // Contact Form End
   // --------------------------------------------- //
