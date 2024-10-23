@@ -1,6 +1,6 @@
 // ------------------------------------------------
-// Project Name: Braxton - Personal Portfolio & Resume HTML Template
-// Project Description: Show yourself brightly with Braxton - unique and creative portfolio and resume template!
+// Project Name: Muthu Nagaraju - Personal Portfolio
+// Project Description: Muthu Nagaraju Portfolio!
 // Tags: mix_design, resume, portfolio, personal page, cv, template, one page, responsive, html5, css3, creative, clean
 // Version: 1.0.0
 // Build Date: March 2024
