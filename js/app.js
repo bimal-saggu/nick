@@ -502,3 +502,49 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+function animateNumbers(counter) {
+  const target = +counter.getAttribute("data-target");
+  const plusSign = counter.getAttribute("data-plus") || ""; // Get the plus sign if needed
+  const speed = 300; // Adjust this value to control the speed
+  const updateCount = () => {
+    const count = +counter.innerText.replace("+", ""); // Remove + if it's there
+    const increment = target / speed; // Adjust this value to slow down the count
+
+    if (count < target) {
+      counter.innerText = Math.ceil(count + increment); // Increment the number
+      setTimeout(updateCount, 50); // Delay between each increment
+    } else {
+      counter.innerText = target + plusSign; // Append the "+" once the count is finished
+    }
+  };
+
+  updateCount();
+}
+
+// Function to handle Intersection Observer
+function observeNumbers() {
+  const counters = document.querySelectorAll(".achievements__number");
+
+  // Create the intersection observer
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // When the number becomes visible, trigger the animation
+          animateNumbers(entry.target);
+          observer.unobserve(entry.target); // Stop observing once the animation starts
+        }
+      });
+    },
+    { threshold: 0.5 }
+  ); // 0.5 means it triggers when 50% of the element is visible
+
+  // Observe each counter
+  counters.forEach((counter) => {
+    observer.observe(counter);
+  });
+}
+
+// Start observing when the document is fully loaded
+window.addEventListener("DOMContentLoaded", observeNumbers);
